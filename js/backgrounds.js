@@ -11,22 +11,22 @@ export class Background {
         this.y = 0;
     }
 
-    update() {
+    update(game) {
         //this.x1 -= this.speed;
         if (this.x1 <= -this.width + this.speed) {
-            this.x1 = this.x3 + (this.width - this.speed);
+            this.x1 = this.x3 + (this.width - this.speed*game.speed);
         } else {
-            this.x1 -= (this.speed);
+            this.x1 -= (this.speed * game.speed);
         }
         if (this.x2 <= -this.width + this.speed) {
-            this.x2 = this.x1 + (this.width - this.speed);
+            this.x2 = this.x1 + (this.width - this.speed*game.speed);
         } else {
-            this.x2 -= (this.speed);
+            this.x2 -= (this.speed * game.speed);
         }
         if (this.x3 <= -this.width + this.speed) {
-            this.x3 = this.x2 + (this.width - this.speed);
+            this.x3 = this.x2 + (this.width - this.speed*game.speed);
         } else {
-            this.x3 -= (this.speed);
+            this.x3 -= (this.speed * game.speed);
         }
 
     }
@@ -40,7 +40,7 @@ export class Background {
 
 export function handleBackgrounds(game) {
     for (let i = 0; i < game.backgrounds.length; i++) {
-        game.backgrounds[i].update();
+        game.backgrounds[i].update(game);
         game.backgrounds[i].draw(game.ctx);
     }
 }

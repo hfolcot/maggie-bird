@@ -9,7 +9,7 @@ greenPlane.src = 'img/green_plane_sprite_sheet.png';
 
 
 export class Obstacle {
-    constructor(game, ogWidth, ogHeight, w, h, maxFrame, img, speed) {
+    constructor(game, ogWidth, ogHeight, w, h, maxFrame, img, speed, animationSpeed) {
         this.ogWidth = ogWidth;
         this.ogHeight = ogHeight;
         this.width = w;
@@ -21,9 +21,10 @@ export class Obstacle {
         this.maxFrame = maxFrame;
         this.img = img;
         this.speed = speed;
+        this.animationSpeed = animationSpeed;
     }
     update() {
-        if (this.game.frame % 3 == 0) {
+        if (this.game.frame % this.animationSpeed == 0) {
             this.frameNo++;
         }
         if (this.frameNo === this.maxFrame) {
@@ -47,7 +48,8 @@ const obstacles = [
         height: 200,
         maxFrame: 3,
         img : heli,
-        speed : 4
+        speed : 6,
+        animSpeed: 3
     },
     {
         ogWidth: 250,
@@ -56,7 +58,8 @@ const obstacles = [
         height: 75,
         maxFrame: 3,
         img : ufo,
-        speed : 1
+        speed : 3,
+        animSpeed: 5
     },
     {
         ogWidth: 250,
@@ -65,7 +68,8 @@ const obstacles = [
         height: 200,
         maxFrame: 3,
         img : plane,
-        speed : 3
+        speed : 5,
+        animSpeed: 3
     },
     {
         ogWidth: 250,
@@ -74,23 +78,36 @@ const obstacles = [
         height: 100,
         maxFrame: 3,
         img : greenPlane,
-        speed : 2
+        speed :4,
+        animSpeed: 3
     },
 
 ]
 
+
+
 export function handleObstacles(game) {
-    if (game.obstacles.length < 6) {
+    if (game.frame % 100 == 0) {
         let rand = Math.floor(Math.random() * 4);
-        let obst = new Obstacle(game, obstacles[rand].ogWidth, obstacles[rand].ogHeight, obstacles[rand].width, obstacles[rand].height, obstacles[rand].maxFrame, obstacles[rand].img, obstacles[rand].speed);
+        let obst = new Obstacle(
+            game, 
+            obstacles[rand].ogWidth, 
+            obstacles[rand].ogHeight, 
+            obstacles[rand].width, 
+            obstacles[rand].height, 
+            obstacles[rand].maxFrame, 
+            obstacles[rand].img, 
+            obstacles[rand].speed,
+            obstacles[rand].animSpeed
+            );
         game.obstacles.unshift(obst);
     }
     for (let i = 0; i < game.obstacles.length; i++) {
         game.obstacles[i].x -= game.obstacles[i].speed * game.speed;
         game.obstacles[i].draw();
         game.obstacles[i].update();
-        if (game.obstacles.length >=6 && game.obstacles[i].x < 0 - game.obstacles[i].width) {
-            game.obstacles.pop(game.obstacles[i]);
+        if (game.obstacles[i].x + game.obstacles[i].width < 0) {
+            game.obstacles.splice(i, 1);
         }
     }
 }

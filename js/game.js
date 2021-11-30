@@ -31,14 +31,14 @@ export default class Game {
         this.elevate = false;
         this.status = GAMESTATUS.RUNNING;
         this.obstacles = [];
-        this.speed = 6;
+        this.speed = 1;
         this.frame = 0;
         this.backgrounds = [
-            new Background(skyBackgroundImg, 1, 1600, 600, canvas), 
-            new Background(mountainsBackgroundImg, 2, 1600, 600, canvas),
-            new Background(fartreesBackgroundImg, 3, 1600, 600, canvas),
-            new Background(treesBackgroundImg, 4, 1600, 800, canvas),
-            new Background(treesForegroundImg, 5, 1600, 800, canvas)
+            new Background(skyBackgroundImg, 0.4, 1600, 600, canvas), 
+            new Background(mountainsBackgroundImg, 0.5, 1600, 600, canvas),
+            new Background(fartreesBackgroundImg, 0.6, 1600, 600, canvas),
+            new Background(treesBackgroundImg, 0.7, 1600, 800, canvas),
+            new Background(treesForegroundImg, 0.8, 1600, 800, canvas)
         ]
     }
 
@@ -48,8 +48,8 @@ export default class Game {
             handleBackgrounds(this);
             handleObstacles(this);
             this.frame++;
-            if (this.frame % 1000 == 0) {
-                this.speed++;
+            if (this.frame % 100 == 0) {
+                this.speed += 0.1;
             }
         }
         if (this.status == GAMESTATUS.START) {
